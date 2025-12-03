@@ -1,0 +1,26 @@
+### Create Signup
+POST http://localhost:3000/api/signup
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "test123@example.com",
+  "phone": "111222333",
+  "status": "pending"
+}
+
+
+### Get Signup List (Page 1)
+GET http://localhost:3000/api/signup?page=1&limit=10
+
+### Update Signup
+PATCH http://localhost:3000/api/signup/692fea703ccb3c66385bd564
+Content-Type: application/json
+
+{
+  "phone": "99999999",
+  "status": "approved"
+}
+
+### Delete Signup
+DELETE http://localhost:3000/api/signup/692fea703ccb3c66385bd564

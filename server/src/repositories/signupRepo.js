@@ -3,19 +3,16 @@ import { ObjectId } from "mongodb";
 
 export const SignupRepo = {
   async create(data) {
-    const db = getDB();
-    const result = await db.collection("participants").insertOne({
-      ...data,
-      createdAt: new Date()
-    });
-    return result;
+    const db = await getDB();
+    return db.collection("participants").insertOne(data);
   },
 
-  async getList(page, limit) {
-    const db = getDB();
+  async getList(page = 1, limit = 10) {
+    const db = await getDB();
     const skip = (page - 1) * limit;
 
-    const items = await db.collection("participants")
+    const items = await db
+      .collection("participants")
       .find()
       .skip(skip)
       .limit(limit)
@@ -23,23 +20,20 @@ export const SignupRepo = {
 
     const total = await db.collection("participants").countDocuments();
 
-    return { items, total };
+    return { page, limit, total, items };
   },
 
   async update(id, data) {
-    const db = getDB();
-    const result = await db.collection("participants")
-      .updateOne(
-        { _id: new ObjectId(id) },
-        { $set: data }
-      );
-    return result;
+    const db = await getDB();
+    return db
+      .collection("participants")
+      .updateOne({ _id: new ObjectId(id) }, { $set: data });
   },
 
   async remove(id) {
-    const db = getDB();
-    const result = await db.collection("participants")
+    const db = await getDB();
+    return db
+      .collection("participants")
       .deleteOne({ _id: new ObjectId(id) });
-    return result;
   }
 };

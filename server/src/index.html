@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<input id="email" placeholder="Email to approve">
+<button onclick="approveUser()">Approve User</button>
+
+<script src="script.js">
+function approveUser() {
+  const email = document.getElementById("email").value;
+
+  fetch("/approve-user", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email })
+  })
+    .then(res => res.json())
+    .then(data => alert(data.message))
+    .catch(err => console.error(err));
+}
+</script>
+</body>
+</html>
